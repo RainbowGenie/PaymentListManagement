@@ -1,5 +1,4 @@
 from pydantic import BaseModel, Field, EmailStr
-from datetime import datetime
 
 class Payment(BaseModel):
     payee_first_name: str

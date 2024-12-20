@@ -6,28 +6,28 @@ from bson import ObjectId
 router = APIRouter()
 
 @router.post("/payments/")
-async def create_payment(payment: Payment):
+async def create_payment(payment: Payment) -> dict:
     payment_dict = payment.dict()
-    result = payments_collection.insert_one(payment_dict)
+    result = await payments_collection.insert_one(payment_dict)
     return {"id": str(result.inserted_id)}
 
 @router.get("/payments/")
-async def get_payments():
-    payments = list(payments_collection.find({}))
+async def get_payments() -> list:
+    payments = await payments_collection.find({}).to_list(1)  # Fetch up to 100 documents
     for payment in payments:
-        payment["_id"] = str(payment["_id"])
+        payment["_id"] = str(payment["_id"])  # Convert ObjectId to string
     return payments
 
 @router.put("/payments/{payment_id}")
-async def update_payment(payment_id: str, payment: Payment):
-    result = payments_collection.update_one({"_id": ObjectId(payment_id)}, {"$set": payment.dict()})
+async def update_payment(payment_id: str, payment: Payment) -> dict:
+    result = await payments_collection.update_one({"_id": ObjectId(payment_id)}, {"$set": payment.dict()})
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Payment not found")
     return {"message": "Payment updated"}
 
 @router.delete("/payments/{payment_id}")
 async def delete_payment(payment_id: str):
-    result = payments_collection.delete_one({"_id": ObjectId(payment_id)})
+    result = await payments_collection.delete_one({"_id": ObjectId(payment_id)})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Payment not found")
     return {"message": "Payment deleted"}

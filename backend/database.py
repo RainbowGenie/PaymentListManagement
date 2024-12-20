@@ -1,6 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.errors import ConnectionFailure
 import pandas as pd
+from datetime import datetime
 from pathlib import Path
 
 MONGO_DETAILS = "mongodb://localhost:27017"
@@ -31,8 +32,18 @@ async def import_csv_to_mongodb():
     # Read the CSV into a pandas DataFrame
     df = pd.read_csv(csv_file_path)
 
+    # Format and clean data before inserting into MongoDB
+    def format_record(record):
+        record["payee_added_date_utc"] = int(record["payee_added_date_utc"])
+        record["discount_percent"] = float(record["discount_percent"])
+        record["tax_percent"] = float(record["tax_percent"])
+        record["due_amount"] = float(record["due_amount"])
+        record["payee_phone_number"] = str(record["payee_phone_number"])
+        record["payee_postal_code"] = str(record["payee_postal_code"])
+        return record
+
     # Convert DataFrame to a list of dictionaries for MongoDB insertion
-    payments = df.to_dict(orient="records")
+    payments = [format_record(row) for row in df.to_dict(orient="records")]
 
     # Insert records into the MongoDB collection
     if payments:
