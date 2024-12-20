@@ -11,7 +11,7 @@ async def startup_event():
     connected = await check_mongodb_connection()
     if not connected:
         raise Exception("Failed to connect to MongoDB!")
-    import_csv_to_mongodb()
+    await import_csv_to_mongodb()
 
 @app.get("/")
 async def root():

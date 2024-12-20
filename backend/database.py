@@ -18,7 +18,8 @@ async def check_mongodb_connection():
         print(f"MongoDB connection failed: {e}")
         return False
 
-def import_csv_to_mongodb():
+async def import_csv_to_mongodb():
+  if "payments" not in await database.list_collection_names() or await payments_collection.estimated_document_count() == 0:
     # Define the path to your CSV file
     csv_file_path = Path(__file__).parent / "payment_information.csv"
     
