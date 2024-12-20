@@ -1,27 +1,21 @@
-from bson import ObjectId
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, EmailStr
+from datetime import datetime
 
-# A helper class to handle ObjectId conversion
-class PyObjectId(ObjectId):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v):
-        if not ObjectId.is_valid(v):
-            raise ValueError("Invalid ObjectId")
-        return ObjectId(v)
-
-    @classmethod
-    def __modify_schema__(cls, field_schema):
-        field_schema.update(type="string")
-
-# An example reusable MongoDB model for documents
-class MongoModel(BaseModel):
-    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
-
-    class Config:
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = True
-        json_encoders = {ObjectId: str}
+class Payment(BaseModel):
+    payee_first_name: str
+    payee_last_name: str
+    payee_payment_status: str
+    payee_added_date_utc: int
+    payee_due_date: str
+    payee_address_line_1: str
+    payee_address_line_2: str = None
+    payee_city: str
+    payee_country: str
+    payee_province_or_state: str
+    payee_postal_code: str
+    payee_phone_number: str
+    payee_email: EmailStr
+    currency: str
+    discount_percent: float
+    tax_percent: float
+    due_amount: float

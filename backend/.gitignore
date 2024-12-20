@@ -1,0 +1,72 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment
+env/
+venv/
+ENV/
+.venv/
+.ENV/
+
+# Install and build artifacts
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+
+# Pytest cache and logs
+.pytest_cache/
+.coverage
+*.cover
+*.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VSCode files
+.vscode/
+
+# PyCharm files
+.idea/
+
+# MacOS files
+.DS_Store
+
+# Logs
+*.log
+*.out
+*.err
+
+# Environment variables
+.env
+*.env
+
+# Database dumps
+*.sqlite3
+*.db
+
+# Temporary files
+*.bak
+*.swp
+*.tmp
+*.temp
+
+# FastAPI static and uploaded files (if any)
+static/
+media/
+
+# Ignore CSV files (optional, if sensitive data)
+*.csv
+
+# Node.js (if you have front-end in the same repo)
+node_modules/
+
+# Lock files (optional)
+Pipfile.lock
+poetry.lock
