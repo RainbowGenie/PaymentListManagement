@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field, EmailStr
+from typing import Optional
 
 class Payment(BaseModel):
     payee_first_name: str
@@ -7,7 +8,7 @@ class Payment(BaseModel):
     payee_added_date_utc: int
     payee_due_date: str
     payee_address_line_1: str
-    payee_address_line_2: str = None
+    payee_address_line_2: Optional[str] = None
     payee_city: str
     payee_country: str
     payee_province_or_state: str

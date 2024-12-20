@@ -18,6 +18,14 @@ async def get_payments() -> list:
         payment["_id"] = str(payment["_id"])  # Convert ObjectId to string
     return payments
 
+@router.get("/payments/{payment_id}")
+async def get_payment_by_id(payment_id: str) -> dict:
+    payment = await payments_collection.find_one({"_id": ObjectId(payment_id)})
+    if payment:
+        payment['_id'] = str(payment['_id'])
+        return payment
+    return {"message": "Payment not found"}
+
 @router.put("/payments/{payment_id}")
 async def update_payment(payment_id: str, payment: Payment) -> dict:
     result = await payments_collection.update_one({"_id": ObjectId(payment_id)}, {"$set": payment.dict()})
