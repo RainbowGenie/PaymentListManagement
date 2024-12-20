@@ -21,12 +21,26 @@ import { MatInputModule } from '@angular/material/input';
   styleUrls: ['./payment-modal.component.css'],
 })
 export class PaymentModalComponent {
+  fields: { key: keyof Payment; label: string }[];
   constructor(
     public dialogRef: MatDialogRef<PaymentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Payment
-  ) {}
+  ) {
+    this.fields = Object.keys(data)
+      .filter((key) => key !== '_id')
+      .map((key) => ({
+        key: key as keyof Payment,
+        label: this.formatLabel(key),
+      }));
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+  formatLabel(key: string): string {
+    return key
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, (char) => char.toUpperCase())
+      .replace('Payee ', '');
   }
 }
