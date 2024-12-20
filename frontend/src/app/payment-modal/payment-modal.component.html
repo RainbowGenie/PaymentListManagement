@@ -1,0 +1,29 @@
+<!-- src/app/payment-modal/payment-modal.component.html -->
+
+<h2 mat-dialog-title>Edit Payment</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>First Name</mat-label>
+    <input matInput [(ngModel)]="data.payee_first_name">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Last Name</mat-label>
+    <input matInput [(ngModel)]="data.payee_last_name">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Status</mat-label>
+    <input matInput [(ngModel)]="data.payee_payment_status">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Due Date</mat-label>
+    <input matInput [(ngModel)]="data.payee_due_date">
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data">Update</button>
+</mat-dialog-actions>

@@ -1,0 +1,29 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+mat-table {
+  width: 100%;
+  margin: 20px;
+  border-collapse: collapse;
+}
+
+mat-table th,
+mat-table td {
+  padding: 8px;
+  text-align: left;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  margin: 5px;
+}

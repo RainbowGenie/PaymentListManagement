@@ -1,0 +1,11 @@
+mat-dialog-title {
+  font-size: 20px;
+}
+
+mat-dialog-content {
+  padding: 10px;
+}
+
+mat-dialog-actions {
+  justify-content: space-between;
+}
