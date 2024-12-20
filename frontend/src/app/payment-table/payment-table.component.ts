@@ -16,10 +16,14 @@ import { CommonModule } from '@angular/common';
 export class PaymentTableComponent implements OnInit {
   payments: Payment[] = [];
   displayedColumns: string[] = [
-    'payee_first_name',
-    'payee_last_name',
+    'payee_name',
     'payee_payment_status',
     'payee_due_date',
+    'payee_address',
+    'payee_phone_number',
+    'payee_email',
+    'payee_currency',
+    'payee_due_amount',
     'actions',
   ];
 
