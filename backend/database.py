@@ -1,5 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.errors import ConnectionFailure
+import pandas as pd
+from pathlib import Path
 
 MONGO_DETAILS = "mongodb://localhost:27017"
 client = AsyncIOMotorClient(MONGO_DETAILS)
@@ -15,3 +17,25 @@ async def check_mongodb_connection():
     except ConnectionFailure as e:
         print(f"MongoDB connection failed: {e}")
         return False
+
+def import_csv_to_mongodb():
+    # Define the path to your CSV file
+    csv_file_path = Path(__file__).parent / "payment_information.csv"
+    
+    # Check if file exists
+    if not csv_file_path.exists():
+        print(f"CSV file {csv_file_path} not found.")
+        return
+
+    # Read the CSV into a pandas DataFrame
+    df = pd.read_csv(csv_file_path)
+
+    # Convert DataFrame to a list of dictionaries for MongoDB insertion
+    payments = df.to_dict(orient="records")
+
+    # Insert records into the MongoDB collection
+    if payments:
+        payments_collection.insert_many(payments)
+        print(f"{len(payments)} payments imported into MongoDB.")
+    else:
+        print("No data to import.")
