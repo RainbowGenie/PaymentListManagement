@@ -13,3 +13,9 @@ mat-dialog-actions {
 .w-full {
   width: 100%;
 }
+
+.flex {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}

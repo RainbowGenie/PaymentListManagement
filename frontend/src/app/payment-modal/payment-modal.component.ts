@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-payment-modal',
@@ -18,6 +20,8 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: './payment-modal.component.html',
   styleUrls: ['./payment-modal.component.css'],
@@ -36,6 +40,17 @@ export class PaymentModalComponent {
         key: key as keyof Payment,
         label: this.formatLabel(key),
       }));
+
+    if (this.localData.payee_added_date_utc) {
+      this.localData.payee_added_date_utc = new Date(
+        this.localData.payee_added_date_utc * 1000
+      ) as any;
+    }
+    if (this.localData.payee_due_date) {
+      this.localData.payee_due_date = new Date(
+        this.localData.payee_due_date
+      ) as any;
+    }
   }
 
   onNoClick(): void {
@@ -47,4 +62,6 @@ export class PaymentModalComponent {
       .replace(/\b\w/g, (char) => char.toUpperCase())
       .replace('Payee ', '');
   }
+
+  onDateChange(field: keyof Payment): void {}
 }

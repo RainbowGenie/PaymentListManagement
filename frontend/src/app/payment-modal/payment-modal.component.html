@@ -2,9 +2,29 @@
 
 <h2 mat-dialog-title>Edit Payment</h2>
 <mat-dialog-content>
-  <mat-form-field *ngFor="let field of fields" class="w-full">
+  <mat-form-field *ngFor="let field of fields" class="w-full" appearance="fill">
     <mat-label>{{ field.label }}</mat-label>
-    <input matInput [(ngModel)]="localData[field.key]" />
+    <ng-container
+      *ngIf="
+        field.key === 'payee_added_date_utc' || field.key === 'payee_due_date';
+        else textInput
+      "
+    >
+      <div class="flex">
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [(ngModel)]="localData[field.key]"
+          (ngModelChange)="onDateChange(field.key)"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </div>
+    </ng-container>
+
+    <ng-template #textInput>
+      <input matInput [(ngModel)]="localData[field.key]" />
+    </ng-template>
   </mat-form-field>
 </mat-dialog-content>
 

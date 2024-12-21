@@ -75,6 +75,10 @@ export class PaymentTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        result.payee_added_date_utc = Math.floor(
+          (result.payee_added_date_utc as any).getTime() / 1000
+        ) as number;
+        result.payee_due_date = this.formatDate(result.payee_due_date);
         this.paymentService.updatePayment(result._id, result).subscribe(() => {
           Object.assign(payment, result);
         });
@@ -94,5 +98,12 @@ export class PaymentTableComponent implements OnInit {
         });
       }
     });
+  }
+
+  formatDate(date: Date): string {
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
   }
 }
