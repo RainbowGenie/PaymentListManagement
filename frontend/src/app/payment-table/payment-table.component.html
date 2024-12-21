@@ -18,7 +18,7 @@
     <ng-container matColumnDef="payee_added_date_utc">
       <th mat-header-cell *matHeaderCellDef>Added Date</th>
       <td mat-cell *matCellDef="let payment">
-        {{ payment.payee_added_date_utc }}
+        {{ payment.payee_added_date_utc * 1000 | date : "MM/dd/yyyy" }}
       </td>
     </ng-container>
 
