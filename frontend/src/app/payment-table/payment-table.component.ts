@@ -47,10 +47,7 @@ export class PaymentTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.paymentService.updatePayment(result._id, result).subscribe(() => {
-          const index = this.payments.findIndex((p) => p._id === result._id);
-          if (index !== -1) {
-            this.payments[index] = result;
-          }
+          Object.assign(payment, result);
         });
       }
     });
@@ -58,7 +55,7 @@ export class PaymentTableComponent implements OnInit {
 
   deletePayment(paymentId: string): void {
     this.paymentService.deletePayment(paymentId).subscribe(() => {
-      this.payments = this.payments.filter((p) => p._id !== paymentId);
+      this.ngOnInit();
     });
   }
 }

@@ -22,10 +22,12 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class PaymentModalComponent {
   fields: { key: keyof Payment; label: string }[];
+  localData: Partial<Payment>;
   constructor(
     public dialogRef: MatDialogRef<PaymentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Payment
   ) {
+    this.localData = { ...data };
     this.fields = Object.keys(data)
       .filter((key) => key !== '_id')
       .map((key) => ({

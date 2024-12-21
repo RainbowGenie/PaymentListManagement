@@ -4,11 +4,11 @@
 <mat-dialog-content>
   <mat-form-field *ngFor="let field of fields" class="w-full">
     <mat-label>{{ field.label }}</mat-label>
-    <input matInput [(ngModel)]="data[field.key]" />
+    <input matInput [(ngModel)]="localData[field.key]" />
   </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="data">Update</button>
+  <button mat-button [mat-dialog-close]="localData">Update</button>
 </mat-dialog-actions>
