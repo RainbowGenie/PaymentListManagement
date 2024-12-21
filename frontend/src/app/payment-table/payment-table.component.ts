@@ -3,15 +3,17 @@ import { PaymentService } from '../payment.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PaymentModalComponent } from '../payment-modal/payment-modal.component';
 import { Payment } from '../models/payment';
-import { MatTableModule } from '@angular/material/table'; // Import MatTableModule
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { ConfirmDialogComponent } from 'app/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-payment-table',
   standalone: true,
   templateUrl: './payment-table.component.html',
   styleUrls: ['./payment-table.component.css'],
-  imports: [MatTableModule, CommonModule],
+  imports: [MatTableModule, CommonModule, MatButtonModule],
 })
 export class PaymentTableComponent implements OnInit {
   payments: Payment[] = [];
@@ -52,8 +54,16 @@ export class PaymentTableComponent implements OnInit {
   }
 
   deletePayment(paymentId: string): void {
-    this.paymentService.deletePayment(paymentId).subscribe(() => {
-      this.ngOnInit();
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.paymentService.deletePayment(paymentId).subscribe(() => {
+          this.ngOnInit();
+        });
+      }
     });
   }
 }
