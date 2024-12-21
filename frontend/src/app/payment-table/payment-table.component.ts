@@ -5,7 +5,11 @@ import { PaymentModalComponent } from '../payment-modal/payment-modal.component'
 import { Payment } from '../models/payment';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 import { ConfirmDialogComponent } from 'app/confirm-dialog/confirm-dialog.component';
 
@@ -33,6 +37,9 @@ export class PaymentTableComponent implements OnInit {
     'actions',
   ];
   dataSource = new MatTableDataSource<Payment>();
+  totalPayments = 0;
+  pageSize = 10;
+  currentPage = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -46,14 +53,18 @@ export class PaymentTableComponent implements OnInit {
   }
 
   loadPayments(): void {
-    this.paymentService.getPayments().subscribe((payments: Payment[]) => {
-      this.dataSource.data = payments;
-      this.dataSource.paginator = this.paginator; // Link paginator to dataSource
-    });
+    this.paymentService
+      .getPayments(this.currentPage + 1, this.pageSize)
+      .subscribe((response: any) => {
+        this.dataSource.data = response.data;
+        this.totalPayments = response.total;
+      });
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  onPageChange(event: PageEvent): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadPayments();
   }
 
   openEditModal(payment: any): void {

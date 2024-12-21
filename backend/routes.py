@@ -12,12 +12,13 @@ async def create_payment(payment: Payment) -> dict:
     return {"id": str(result.inserted_id)}
 
 @router.get("/payments/")
-async def get_payments(page: int = Query(1), size: int = Query(10)) -> list:
+async def get_payments(page: int = Query(1), size: int = Query(10)) -> dict:
     skip = (page - 1) * size
     payments = await payments_collection.find({}).skip(skip).limit(size).to_list()
+    total = await payments_collection.count_documents({})
     for payment in payments:
         payment["_id"] = str(payment["_id"])  # Convert ObjectId to string
-    return payments
+    return {"data": payments, "total": total}
 
 @router.get("/payments/{payment_id}")
 async def get_payment_by_id(payment_id: str) -> dict:

@@ -57,9 +57,11 @@
 
   <mat-paginator
     [pageSizeOptions]="[10, 25, 50, 100]"
+    [length]="totalPayments"
     [pageSize]="10"
     showFirstLastButtons
-    aria-label="Select page of periodic elements"
+    aria-label="Select page of payment elements"
+    (page)="onPageChange($event)"
   >
   </mat-paginator>
 </div>
