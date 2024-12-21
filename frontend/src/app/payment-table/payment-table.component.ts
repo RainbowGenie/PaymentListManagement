@@ -13,6 +13,7 @@ import {
 } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 import { ConfirmDialogComponent } from 'app/confirm-dialog/confirm-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-payment-table',
@@ -47,11 +48,20 @@ export class PaymentTableComponent implements OnInit {
 
   constructor(
     private paymentService: PaymentService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.loadPayments();
+  }
+
+  showNotification(message: string, action: string = 'Close'): void {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'right',
+    });
   }
 
   loadPayments(): void {
@@ -83,6 +93,7 @@ export class PaymentTableComponent implements OnInit {
         result.payee_due_date = this.formatDate(result.payee_due_date);
         this.paymentService.updatePayment(result._id, result).subscribe(() => {
           Object.assign(payment, result);
+          this.showNotification('Payment updated successfully.');
         });
       }
     });
@@ -96,6 +107,7 @@ export class PaymentTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe((confirmed) => {
       if (confirmed) {
         this.paymentService.deletePayment(paymentId).subscribe(() => {
+          this.showNotification('Payment deleted successfully.');
           this.ngOnInit();
         });
       }
