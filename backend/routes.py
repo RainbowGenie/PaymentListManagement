@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from database import payments_collection
 from models import Payment
 from bson import ObjectId
@@ -12,8 +12,9 @@ async def create_payment(payment: Payment) -> dict:
     return {"id": str(result.inserted_id)}
 
 @router.get("/payments/")
-async def get_payments() -> list:
-    payments = await payments_collection.find({}).to_list()
+async def get_payments(page: int = Query(1), size: int = Query(10)) -> list:
+    skip = (page - 1) * size
+    payments = await payments_collection.find({}).skip(skip).limit(size).to_list()
     for payment in payments:
         payment["_id"] = str(payment["_id"])  # Convert ObjectId to string
     return payments
