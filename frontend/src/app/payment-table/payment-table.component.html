@@ -2,60 +2,44 @@
 
 <table mat-table [dataSource]="payments">
   <ng-container matColumnDef="payee_name">
-    <th mat-header-cell *matHeaderCellDef class="column-name">Name</th>
-    <td mat-cell *matCellDef="let payment" class="column-name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let payment">
       {{ payment.payee_first_name }} {{ payment.payee_last_name }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="payee_payment_status">
-    <th mat-header-cell *matHeaderCellDef class="column-status">Status</th>
-    <td mat-cell *matCellDef="let payment" class="column-status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let payment">
       {{ payment.payee_payment_status }}
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="payee_added_date_utc">
+    <th mat-header-cell *matHeaderCellDef>Added Date</th>
+    <td mat-cell *matCellDef="let payment">
+      {{ payment.payee_added_date_utc }}
+    </td>
+  </ng-container>
+
   <ng-container matColumnDef="payee_due_date">
-    <th mat-header-cell *matHeaderCellDef class="column-due-date">Due Date</th>
-    <td mat-cell *matCellDef="let payment" class="column-due-date">
+    <th mat-header-cell *matHeaderCellDef>Due Date</th>
+    <td mat-cell *matCellDef="let payment">
       {{ payment.payee_due_date }}
     </td>
   </ng-container>
 
-  <ng-container matColumnDef="payee_address">
-    <th mat-header-cell *matHeaderCellDef class="column-address">Address</th>
-    <td mat-cell *matCellDef="let payment" class="column-address">
-      {{ payment.payee_city }}, {{ payment.payee_province_or_state }}
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="payee_phone_number">
-    <th mat-header-cell *matHeaderCellDef class="column-phone">Phone Number</th>
-    <td mat-cell *matCellDef="let payment" class="column-phone">
-      {{ payment.payee_phone_number }}
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="payee_email">
-    <th mat-header-cell *matHeaderCellDef class="column-email">Email</th>
-    <td mat-cell *matCellDef="let payment" class="column-email">
-      {{ payment.payee_email }}
+  <ng-container matColumnDef="payee_due_amount">
+    <th mat-header-cell *matHeaderCellDef>Due Amount</th>
+    <td mat-cell *matCellDef="let payment">
+      {{ payment.due_amount }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="payee_currency">
-    <th mat-header-cell *matHeaderCellDef class="column-currency">Currency</th>
-    <td mat-cell *matCellDef="let payment" class="column-currency">
+    <th mat-header-cell *matHeaderCellDef>Currency</th>
+    <td mat-cell *matCellDef="let payment">
       {{ payment.currency }}
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="payee_due_amount">
-    <th mat-header-cell *matHeaderCellDef class="column-due-amount">
-      Due Amount
-    </th>
-    <td mat-cell *matCellDef="let payment" class="column-due-amount">
-      {{ payment.due_amount }}
     </td>
   </ng-container>
 

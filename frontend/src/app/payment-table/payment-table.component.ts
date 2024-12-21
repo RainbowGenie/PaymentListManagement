@@ -18,12 +18,10 @@ export class PaymentTableComponent implements OnInit {
   displayedColumns: string[] = [
     'payee_name',
     'payee_payment_status',
+    'payee_added_date_utc',
     'payee_due_date',
-    'payee_address',
-    'payee_phone_number',
-    'payee_email',
-    'payee_currency',
     'payee_due_amount',
+    'payee_currency',
     'actions',
   ];
 
