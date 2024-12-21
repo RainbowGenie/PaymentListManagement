@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-payment-modal',
@@ -22,6 +23,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSelectModule,
   ],
   templateUrl: './payment-modal.component.html',
   styleUrls: ['./payment-modal.component.css'],
@@ -29,6 +31,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 export class PaymentModalComponent {
   fields: { key: keyof Payment; label: string }[];
   localData: Partial<Payment>;
+  statusOptions: { value: string; label: string }[] = [
+    { value: 'pending', label: 'Pending' },
+    { value: 'completed', label: 'Completed' },
+    { value: 'overdue', label: 'Overdue' },
+  ];
   constructor(
     public dialogRef: MatDialogRef<PaymentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Payment
