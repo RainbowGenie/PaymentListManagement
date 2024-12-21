@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PaymentService } from '../payment.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PaymentModalComponent } from '../payment-modal/payment-modal.component';
 import { Payment } from '../models/payment';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 import { ConfirmDialogComponent } from 'app/confirm-dialog/confirm-dialog.component';
 
@@ -13,10 +14,15 @@ import { ConfirmDialogComponent } from 'app/confirm-dialog/confirm-dialog.compon
   standalone: true,
   templateUrl: './payment-table.component.html',
   styleUrls: ['./payment-table.component.css'],
-  imports: [MatTableModule, CommonModule, MatButtonModule],
+  imports: [
+    MatTableModule,
+    CommonModule,
+    MatButtonModule,
+    MatPaginator,
+    MatPaginatorModule,
+  ],
 })
 export class PaymentTableComponent implements OnInit {
-  payments: Payment[] = [];
   displayedColumns: string[] = [
     'payee_name',
     'payee_payment_status',
@@ -26,6 +32,9 @@ export class PaymentTableComponent implements OnInit {
     'payee_currency',
     'actions',
   ];
+  dataSource = new MatTableDataSource<Payment>();
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private paymentService: PaymentService,
@@ -33,9 +42,18 @@ export class PaymentTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.paymentService.getPayments().subscribe((data: any) => {
-      this.payments = data;
+    this.loadPayments();
+  }
+
+  loadPayments(): void {
+    this.paymentService.getPayments().subscribe((payments: Payment[]) => {
+      this.dataSource.data = payments;
+      this.dataSource.paginator = this.paginator; // Link paginator to dataSource
     });
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
   openEditModal(payment: any): void {
