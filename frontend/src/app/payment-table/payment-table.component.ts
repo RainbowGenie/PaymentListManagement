@@ -5,6 +5,7 @@ import { PaymentModalComponent } from '../payment-modal/payment-modal.component'
 import { Payment } from '../models/payment';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import {
   MatPaginator,
   MatPaginatorModule,
@@ -24,6 +25,7 @@ import { ConfirmDialogComponent } from 'app/confirm-dialog/confirm-dialog.compon
     MatButtonModule,
     MatPaginator,
     MatPaginatorModule,
+    MatIconModule,
   ],
 })
 export class PaymentTableComponent implements OnInit {
