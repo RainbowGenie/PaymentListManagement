@@ -13,7 +13,7 @@ async def create_payment(payment: Payment) -> dict:
 
 @router.get("/payments/")
 async def get_payments() -> list:
-    payments = await payments_collection.find({}).to_list(1)  # Fetch up to 100 documents
+    payments = await payments_collection.find({}).to_list()
     for payment in payments:
         payment["_id"] = str(payment["_id"])  # Convert ObjectId to string
     return payments
